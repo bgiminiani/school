@@ -1,4 +1,4 @@
-import Subscription from "./Subscription";
+import EnrollStudent from "./EnrollStudent";
 
-const subscription = new Subscription("me");
-console.log(`User: ${subscription.getUser()}`);
+const enrollStudent = new EnrollStudent();
+console.log(`User: ${enrollStudent.execute("ana")}`);
