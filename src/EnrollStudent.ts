@@ -1,24 +1,29 @@
 import Cpf from "./Cpf";
 import Name from "./Name";
 
-const enrollmentStudents = [
+type EnrollmentStudent = {
+  name: string;
+  cpf: string;
+};
+
+const enrollmentStudents: EnrollmentStudent[] = [
   {
     name: "Angela Maria",
     cpf: "136.166.780-05",
   },
-  {
-    name: "Angela Rodrigues",
-    cpf: "088.085.642-40",
-  },
 ];
 
 export default class EnrollStudent {
-  execute({ name, cpf }: { name: string; cpf: string }): void {
-    const studentName = new Name(name);
-    const studentCpf = new Cpf(cpf);
+  execute(enrollmentRequest: { student: { name: string; cpf: string } }): void {
+    const studentName = new Name(enrollmentRequest.student.name);
+    const studentCpf = new Cpf(enrollmentRequest.student.cpf);
     const duplicatedStudent = enrollmentStudents.find(
       (student) => student.cpf === studentCpf.value
     );
     if (duplicatedStudent) throw new Error("Duplicated student");
+    enrollmentStudents.push({
+      name: studentName.value,
+      cpf: studentCpf.value,
+    });
   }
 }
