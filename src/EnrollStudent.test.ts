@@ -82,4 +82,36 @@ describe("Enroll Student", () => {
       new Error("Level not found")
     );
   });
+
+  it("Should not enroll if module does not exist", () => {
+    const enrollStudent = new EnrollStudent();
+    const enrollmentRequest = {
+      student: {
+        name: "Ana Maria",
+        cpf: "157.465.478-08",
+      },
+      level: "EM",
+      module: "10000",
+      grade: "A",
+    };
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
+      new Error("Module not found")
+    );
+  });
+
+  it("Should not enroll if grade does not exist", () => {
+    const enrollStudent = new EnrollStudent();
+    const enrollmentRequest = {
+      student: {
+        name: "Ana Maria",
+        cpf: "157.465.478-08",
+      },
+      level: "EM",
+      module: "1",
+      grade: "AA",
+    };
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
+      new Error("Grade not found")
+    );
+  });
 });

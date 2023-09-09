@@ -151,12 +151,14 @@ export default class EnrollStudent {
         module.code === enrollmentRequest.module &&
         module.level === enrollmentRequest.level
     );
+    if (!module) throw new Error("Module not found");
     const grade = this.grades.find(
       (grade) =>
         grade.code === enrollmentRequest.grade &&
         grade.module === enrollmentRequest.module &&
         grade.level === enrollmentRequest.level
     );
+    if (!grade) throw new Error("Grade not found");
     const enrollmentQuantity = this.enrollment.length;
     const code = (enrollmentQuantity + 1).toString().padStart(4, "0");
     const date = new Date();
