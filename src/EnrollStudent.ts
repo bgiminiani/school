@@ -160,11 +160,11 @@ export default class EnrollStudent {
     );
     if (!grade) throw new Error("Grade not found");
     const enrollmentQuantity = this.enrollment.length;
-    const code = (enrollmentQuantity + 1).toString().padStart(4, "0");
+    const sequenceCode = (enrollmentQuantity + 1).toString().padStart(4, "0");
     const enrollmentDate = new Date();
     const enrollmentCode = `${enrollmentDate.getFullYear()}${level.code}${
       module.code
-    }${grade.code}${code}`;
+    }${grade.code}${sequenceCode}`;
     this.enrollment.push({
       student: student,
       level: enrollmentRequest.level,
