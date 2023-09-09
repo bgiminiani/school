@@ -66,4 +66,20 @@ describe("Enroll Student", () => {
     const enrollmentCode = enrollStudent.execute(enrollmentRequest);
     expect(enrollmentCode).toBe(`${fullYear}EM1A0001`);
   });
+
+  it("Should not enroll if level does not exist", () => {
+    const enrollStudent = new EnrollStudent();
+    const enrollmentRequest = {
+      student: {
+        name: "Ana Maria",
+        cpf: "157.465.478-08",
+      },
+      level: "ES",
+      module: "1",
+      grade: "A",
+    };
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
+      new Error("Level not found")
+    );
+  });
 });
