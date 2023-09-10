@@ -128,7 +128,7 @@ export default class EnrollStudent {
   constructor() {}
 
   execute(enrollmentRequest: {
-    student: { name: string; cpf: string };
+    student: { name: string; cpf: string; birthDate: string };
     level: string;
     module: string;
     grade: string;
@@ -137,11 +137,6 @@ export default class EnrollStudent {
       enrollmentRequest.student.name,
       enrollmentRequest.student.cpf
     );
-    const existingStudent = this.enrollment.find(
-      (enrollmentStudent) =>
-        enrollmentStudent.student.cpf.value === student.cpf.value
-    );
-    if (existingStudent) throw new Error("Duplicated student");
     const level = this.levels.find(
       (level) => level.code === enrollmentRequest.level
     );
@@ -158,6 +153,16 @@ export default class EnrollStudent {
         grade.module === enrollmentRequest.module &&
         grade.level === enrollmentRequest.level
     );
+    const studentAge =
+      new Date().getFullYear() -
+      new Date(enrollmentRequest.student.birthDate).getFullYear();
+    if (studentAge < module.minimumAge)
+      throw new Error("Student below minimum age");
+    const existingStudent = this.enrollment.find(
+      (enrollmentStudent) =>
+        enrollmentStudent.student.cpf.value === student.cpf.value
+    );
+    if (existingStudent) throw new Error("Duplicated student");
     if (!grade) throw new Error("Grade not found");
     const enrollmentQuantity = this.enrollment.length;
     const sequenceCode = (enrollmentQuantity + 1).toString().padStart(4, "0");

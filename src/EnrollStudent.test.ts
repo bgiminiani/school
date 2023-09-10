@@ -7,6 +7,7 @@ describe("Enroll Student", () => {
       student: {
         name: "Ana",
         cpf: "521.069.380-55",
+        birthDate: "2002-03-12",
       },
       level: "EM",
       module: "1",
@@ -23,6 +24,7 @@ describe("Enroll Student", () => {
       student: {
         name: "Ana Maria",
         cpf: "111.111.111-11",
+        birthDate: "2002-03-12",
       },
       level: "EM",
       module: "1",
@@ -39,6 +41,7 @@ describe("Enroll Student", () => {
       student: {
         name: "Ana Maria Silva",
         cpf: "088.085.642-40",
+        birthDate: "2002-03-12",
       },
       level: "EM",
       module: "1",
@@ -56,6 +59,7 @@ describe("Enroll Student", () => {
       student: {
         name: "Ana Maria",
         cpf: "157.465.478-08",
+        birthDate: "2002-03-12",
       },
       level: "EM",
       module: "1",
@@ -73,6 +77,7 @@ describe("Enroll Student", () => {
       student: {
         name: "Ana Maria",
         cpf: "157.465.478-08",
+        birthDate: "2002-03-12",
       },
       level: "ES",
       module: "1",
@@ -89,6 +94,7 @@ describe("Enroll Student", () => {
       student: {
         name: "Ana Maria",
         cpf: "157.465.478-08",
+        birthDate: "2002-03-12",
       },
       level: "EM",
       module: "10000",
@@ -105,6 +111,7 @@ describe("Enroll Student", () => {
       student: {
         name: "Ana Maria",
         cpf: "157.465.478-08",
+        birthDate: "2002-03-12",
       },
       level: "EM",
       module: "1",
@@ -112,6 +119,23 @@ describe("Enroll Student", () => {
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Grade not found")
+    );
+  });
+
+  it("Should not enroll student below minimum age", () => {
+    const enrollStudent = new EnrollStudent();
+    const enrollmentRequest = {
+      student: {
+        name: "Ana Maria",
+        cpf: "157.465.478-08",
+        birthDate: "2018-03-12",
+      },
+      level: "EM",
+      module: "1",
+      grade: "A",
+    };
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
+      new Error("Student below minimum age")
     );
   });
 });
