@@ -115,7 +115,7 @@ export default class EnrollStudent {
       level: "EF",
       module: "1",
       code: "A",
-      capacity: 10,
+      capacity: 2,
     },
     {
       level: "EM",
@@ -153,6 +153,7 @@ export default class EnrollStudent {
         grade.module === enrollmentRequest.module &&
         grade.level === enrollmentRequest.level
     );
+    if (!grade) throw new Error("Grade not found");
     const studentAge =
       new Date().getFullYear() -
       new Date(enrollmentRequest.student.birthDate).getFullYear();
@@ -163,7 +164,6 @@ export default class EnrollStudent {
         enrollmentStudent.student.cpf.value === student.cpf.value
     );
     if (existingStudent) throw new Error("Duplicated student");
-    if (!grade) throw new Error("Grade not found");
     const enrollmentQuantity = this.enrollment.length;
     const sequenceCode = (enrollmentQuantity + 1).toString().padStart(4, "0");
     const enrollmentDate = new Date();
