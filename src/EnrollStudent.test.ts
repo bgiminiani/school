@@ -138,4 +138,40 @@ describe("Enroll Student", () => {
       new Error("Student below minimum age")
     );
   });
+  
+  it("Should not enroll student over class capacity", () => {
+    const enrollStudent = new EnrollStudent();
+    enrollStudent.execute({
+      student: {
+        name: "Ana Maria",
+        cpf: "157.465.478-08",
+        birthDate: "2002-03-12",
+      },
+      level: "EM",
+      module: "1",
+      grade: "A",
+    });
+    enrollStudent.execute({
+      student: {
+        name: "Ana Maria",
+        cpf: "468.829.164-70",
+        birthDate: "2002-03-12",
+      },
+      level: "EM",
+      module: "1",
+      grade: "A",
+    });
+    expect(() =>
+      enrollStudent.execute({
+        student: {
+          name: "Ana Maria",
+          cpf: "767.676.866-70",
+          birthDate: "2002-03-12",
+        },
+        level: "EM",
+        module: "1",
+        grade: "A",
+      })
+    ).toThrow(new Error("Class is over capacity"));
+  });
 });

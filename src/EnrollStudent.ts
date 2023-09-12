@@ -115,13 +115,13 @@ export default class EnrollStudent {
       level: "EF",
       module: "1",
       code: "A",
-      capacity: 2,
+      capacity: 10,
     },
     {
       level: "EM",
       module: "1",
       code: "A",
-      capacity: 10,
+      capacity: 2,
     },
   ];
 
@@ -163,6 +163,14 @@ export default class EnrollStudent {
       (enrollmentStudent) =>
         enrollmentStudent.student.cpf.value === student.cpf.value
     );
+    const studentsInClass = this.enrollment.filter(
+      (enrollment) =>
+        enrollment.level === level.code &&
+        enrollment.module === module.code &&
+        enrollment.grade === grade.code
+    );
+    if (studentsInClass.length > 0 && studentsInClass.length === grade.capacity)
+      throw new Error("Class is over capacity");
     if (existingStudent) throw new Error("Duplicated student");
     const enrollmentQuantity = this.enrollment.length;
     const sequenceCode = (enrollmentQuantity + 1).toString().padStart(4, "0");
@@ -172,9 +180,9 @@ export default class EnrollStudent {
     }${grade.code}${sequenceCode}`;
     this.enrollment.push({
       student: student,
-      level: enrollmentRequest.level,
-      module: enrollmentRequest.module,
-      grade: enrollmentRequest.grade,
+      level: level.code,
+      module: module.code,
+      grade: grade.code,
       code: enrollmentCode,
     });
     return enrollmentCode;
