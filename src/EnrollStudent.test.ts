@@ -174,4 +174,21 @@ describe("Enroll Student", () => {
       })
     ).toThrow(new Error("Class is over capacity"));
   });
+
+  it("Should not enroll after que end of the class", () => {
+    const enrollStudent = new EnrollStudent();
+    const enrollmentRequest = {
+      student: {
+        name: "Ana Maria",
+        cpf: "862.628.232-04",
+        birthDate: "2005-03-12",
+      },
+      level: "EM",
+      module: "3",
+      grade: "C",
+    };
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
+      new Error("Class is already finished")
+    );
+  });
 });

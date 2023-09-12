@@ -116,12 +116,24 @@ export default class EnrollStudent {
       module: "1",
       code: "A",
       capacity: 10,
+      start_date: "2021-06-01",
+      end_date: "2021-12-15",
     },
     {
       level: "EM",
       module: "1",
       code: "A",
       capacity: 2,
+      start_date: "2021-05-01",
+      end_date: "2021-05-30",
+    },
+    {
+      level: "EM",
+      module: "3",
+      code: "C",
+      capacity: 5,
+      start_date: "2023-05-01",
+      end_date: "2023-09-12",
     },
   ];
 
@@ -172,9 +184,13 @@ export default class EnrollStudent {
     if (studentsInClass.length > 0 && studentsInClass.length === grade.capacity)
       throw new Error("Class is over capacity");
     if (existingStudent) throw new Error("Duplicated student");
+    const enrollmentDate = new Date();
+    const classEndDate = new Date(grade.end_date);
+    const isAfterEndClass =
+      enrollmentDate.getTime() - classEndDate.getTime() > 0;
+    if (isAfterEndClass) throw new Error("Class is already finished");
     const enrollmentQuantity = this.enrollment.length;
     const sequenceCode = (enrollmentQuantity + 1).toString().padStart(4, "0");
-    const enrollmentDate = new Date();
     const enrollmentCode = `${enrollmentDate.getFullYear()}${level.code}${
       module.code
     }${grade.code}${sequenceCode}`;
