@@ -191,4 +191,21 @@ describe("Enroll Student", () => {
       new Error("Class is already finished")
     );
   });
+
+  it("Should not enroll after 25% of the start of the class", () => {
+    const enrollStudent = new EnrollStudent();
+    const enrollmentRequest = {
+      student: {
+        name: "Ana Maria",
+        cpf: "233.948.962-81",
+        birthDate: "2005-03-12",
+      },
+      level: "EM",
+      module: "3",
+      grade: "C",
+    };
+    expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
+      new Error("Class is already finished")
+    );
+  });
 });

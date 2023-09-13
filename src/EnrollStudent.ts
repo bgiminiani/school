@@ -124,8 +124,8 @@ export default class EnrollStudent {
       module: "1",
       code: "A",
       capacity: 2,
-      start_date: "2021-05-01",
-      end_date: "2021-05-30",
+      start_date: "2023-08-30",
+      end_date: "2025-12-31",
     },
     {
       level: "EM",
@@ -189,6 +189,11 @@ export default class EnrollStudent {
     const isAfterEndClass =
       enrollmentDate.getTime() - classEndDate.getTime() > 0;
     if (isAfterEndClass) throw new Error("Class is already finished");
+    const classStartDate = new Date(grade.start_date);
+    const classAlreadyStarted =
+      enrollmentDate.getTime() - classStartDate.getTime() >
+      (1 / 4) * (classEndDate.getTime() - classStartDate.getTime());
+    if (classAlreadyStarted) throw new Error("Class is already started");
     const enrollmentQuantity = this.enrollment.length;
     const sequenceCode = (enrollmentQuantity + 1).toString().padStart(4, "0");
     const enrollmentCode = `${enrollmentDate.getFullYear()}${level.code}${
