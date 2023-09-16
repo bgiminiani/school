@@ -1,4 +1,5 @@
 import EnrollmentRepositoryInterface from "./EnrollmentRepositoryInterface";
+import GradeRepositoryInterface from "./GradeRepositoryInterface";
 import LevelRepositoryInterface from "./LevelRepositoryInterface";
 import ModuleRepositoryInterface from "./ModuleRepositoryInterface";
 import Student from "./Student";
@@ -12,43 +13,20 @@ type Enrollment = {
 };
 
 export default class EnrollStudent {
-  grades = [
-    {
-      level: "EF",
-      module: "1",
-      code: "A",
-      capacity: 10,
-      start_date: "2021-06-01",
-      end_date: "2021-12-15",
-    },
-    {
-      level: "EM",
-      module: "1",
-      code: "A",
-      capacity: 2,
-      start_date: "2023-08-30",
-      end_date: "2025-12-31",
-    },
-    {
-      level: "EM",
-      module: "3",
-      code: "C",
-      capacity: 5,
-      start_date: "2023-05-01",
-      end_date: "2023-09-12",
-    },
-  ];
   levelRepository: LevelRepositoryInterface;
   moduleRepository: ModuleRepositoryInterface;
+  gradeRepository: GradeRepositoryInterface;
   enrollmentRepository: EnrollmentRepositoryInterface;
 
   constructor(
     levelRepository: LevelRepositoryInterface,
     moduleRepository: ModuleRepositoryInterface,
+    gradeRepository: GradeRepositoryInterface,
     enrollmentRepository: EnrollmentRepositoryInterface
   ) {
     this.levelRepository = levelRepository;
     this.moduleRepository = moduleRepository;
+    this.gradeRepository = gradeRepository;
     this.enrollmentRepository = enrollmentRepository;
   }
 
@@ -69,11 +47,10 @@ export default class EnrollStudent {
       enrollmentRequest.module
     );
     if (!module) throw new Error("Module not found");
-    const grade = this.grades.find(
-      (grade) =>
-        grade.code === enrollmentRequest.grade &&
-        grade.module === enrollmentRequest.module &&
-        grade.level === enrollmentRequest.level
+    const grade = this.gradeRepository.findByCode(
+      enrollmentRequest.level,
+      enrollmentRequest.module,
+      enrollmentRequest.grade
     );
     if (!grade) throw new Error("Grade not found");
     const studentAge =

@@ -1,5 +1,6 @@
 import EnrollmentRepositoryInMemory from "./EnrollmentRepositoryInMemory";
 import EnrollStudent from "./EnrollStudent";
+import GradeRepositoryInMemory from "./GradeRepositoryInMemory";
 import LevelRepositoryInMemory from "./LevelRepositoryInMemory";
 import ModuleRepositoryInMemory from "./ModuleRepositoryInMemory";
 
@@ -8,10 +9,12 @@ let enrollStudent: any;
 beforeEach(() => {
   const levelRepository = new LevelRepositoryInMemory();
   const moduleRepository = new ModuleRepositoryInMemory();
+  const gradeRepository = new GradeRepositoryInMemory();
   const enrollmentRepository = new EnrollmentRepositoryInMemory();
   enrollStudent = new EnrollStudent(
     levelRepository,
     moduleRepository,
+    gradeRepository,
     enrollmentRepository
   );
 });
