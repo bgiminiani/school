@@ -38,7 +38,8 @@ export default class EnrollStudent {
   }): any {
     const student = new Student(
       enrollmentRequest.student.name,
-      enrollmentRequest.student.cpf
+      enrollmentRequest.student.cpf,
+      enrollmentRequest.student.birthDate
     );
     const level = this.levelRepository.findByCode(enrollmentRequest.level);
     if (!level) throw new Error("Level not found");
@@ -53,10 +54,7 @@ export default class EnrollStudent {
       enrollmentRequest.grade
     );
     if (!grade) throw new Error("Grade not found");
-    const studentAge =
-      new Date().getFullYear() -
-      new Date(enrollmentRequest.student.birthDate).getFullYear();
-    if (studentAge < module.minimumAge)
+    if (student.getAge() < module.minimumAge)
       throw new Error("Student below minimum age");
     const isDuplicatedStudent = this.enrollmentRepository.findByCpf(
       student.cpf.value
