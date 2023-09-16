@@ -1,8 +1,14 @@
+import EnrollmentRepositoryInMemory from "./EnrollmentRepositoryInMemory";
 import EnrollStudent from "./EnrollStudent";
 
+let enrollStudent: any;
+
+beforeEach(() => {
+  const enrollmentRepository = new EnrollmentRepositoryInMemory();
+  enrollStudent = new EnrollStudent(enrollmentRepository);
+});
 describe("Enroll Student", () => {
   it("Should not enroll without valid student name", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana",
@@ -19,7 +25,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should not enroll without valid student cpf", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",
@@ -36,7 +41,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should not enroll duplicated student", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria Silva",
@@ -54,7 +58,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should generate enrollment code", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",
@@ -72,7 +75,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should not enroll if level does not exist", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",
@@ -89,7 +91,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should not enroll if module does not exist", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",
@@ -106,7 +107,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should not enroll if grade does not exist", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",
@@ -123,7 +123,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should not enroll student below minimum age", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",
@@ -138,9 +137,8 @@ describe("Enroll Student", () => {
       new Error("Student below minimum age")
     );
   });
-  
+
   it("Should not enroll student over class capacity", () => {
-    const enrollStudent = new EnrollStudent();
     enrollStudent.execute({
       student: {
         name: "Ana Maria",
@@ -176,7 +174,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should not enroll after que end of the class", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",
@@ -193,7 +190,6 @@ describe("Enroll Student", () => {
   });
 
   it("Should not enroll after 25% of the start of the class", () => {
-    const enrollStudent = new EnrollStudent();
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",

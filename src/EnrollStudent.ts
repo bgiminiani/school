@@ -1,3 +1,4 @@
+import EnrollmentRepositoryInterface from "./EnrollmentRepositoryInterface";
 import Student from "./Student";
 
 type Enrollment = {
@@ -9,7 +10,6 @@ type Enrollment = {
 };
 
 export default class EnrollStudent {
-  enrollment: Enrollment[] = [];
   levels = [
     {
       code: "EF1",
@@ -136,8 +136,11 @@ export default class EnrollStudent {
       end_date: "2023-09-12",
     },
   ];
+  enrollmentRepository: EnrollmentRepositoryInterface;
 
-  constructor() {}
+  constructor(enrollmentRepository: EnrollmentRepositoryInterface) {
+    this.enrollmentRepository = enrollmentRepository;
+  }
 
   execute(enrollmentRequest: {
     student: { name: string; cpf: string; birthDate: string };
@@ -171,19 +174,17 @@ export default class EnrollStudent {
       new Date(enrollmentRequest.student.birthDate).getFullYear();
     if (studentAge < module.minimumAge)
       throw new Error("Student below minimum age");
-    const existingStudent = this.enrollment.find(
-      (enrollmentStudent) =>
-        enrollmentStudent.student.cpf.value === student.cpf.value
+    const isDuplicatedStudent = this.enrollmentRepository.findByCpf(
+      student.cpf.value
     );
-    const studentsInClass = this.enrollment.filter(
-      (enrollment) =>
-        enrollment.level === level.code &&
-        enrollment.module === module.code &&
-        enrollment.grade === grade.code
+    if (isDuplicatedStudent) throw new Error("Duplicated student");
+    const studentsInClass = this.enrollmentRepository.findAllByClass(
+      level.code,
+      module.code,
+      grade.code
     );
     if (studentsInClass.length > 0 && studentsInClass.length === grade.capacity)
       throw new Error("Class is over capacity");
-    if (existingStudent) throw new Error("Duplicated student");
     const enrollmentDate = new Date();
     const classEndDate = new Date(grade.end_date);
     const isAfterEndClass =
@@ -194,12 +195,12 @@ export default class EnrollStudent {
       enrollmentDate.getTime() - classStartDate.getTime() >
       (1 / 4) * (classEndDate.getTime() - classStartDate.getTime());
     if (classAlreadyStarted) throw new Error("Class is already started");
-    const enrollmentQuantity = this.enrollment.length;
+    const enrollmentQuantity = this.enrollmentRepository.count();
     const sequenceCode = (enrollmentQuantity + 1).toString().padStart(4, "0");
     const enrollmentCode = `${enrollmentDate.getFullYear()}${level.code}${
       module.code
     }${grade.code}${sequenceCode}`;
-    this.enrollment.push({
+    this.enrollmentRepository.save({
       student: student,
       level: level.code,
       module: module.code,
