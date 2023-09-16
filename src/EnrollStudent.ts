@@ -1,4 +1,5 @@
 import EnrollmentRepositoryInterface from "./EnrollmentRepositoryInterface";
+import LevelRepositoryInterface from "./LevelRepositoryInterface";
 import Student from "./Student";
 
 type Enrollment = {
@@ -10,20 +11,6 @@ type Enrollment = {
 };
 
 export default class EnrollStudent {
-  levels = [
-    {
-      code: "EF1",
-      description: "Ensino Fundamental I",
-    },
-    {
-      code: "EF2",
-      description: "Ensino Fundamental II",
-    },
-    {
-      code: "EM",
-      description: "Ensino Médio",
-    },
-  ];
   modules = [
     {
       level: "EF1",
@@ -136,9 +123,14 @@ export default class EnrollStudent {
       end_date: "2023-09-12",
     },
   ];
+  levelRepository: LevelRepositoryInterface;
   enrollmentRepository: EnrollmentRepositoryInterface;
 
-  constructor(enrollmentRepository: EnrollmentRepositoryInterface) {
+  constructor(
+    levelRepository: LevelRepositoryInterface,
+    enrollmentRepository: EnrollmentRepositoryInterface
+  ) {
+    this.levelRepository = levelRepository;
     this.enrollmentRepository = enrollmentRepository;
   }
 
@@ -152,9 +144,7 @@ export default class EnrollStudent {
       enrollmentRequest.student.name,
       enrollmentRequest.student.cpf
     );
-    const level = this.levels.find(
-      (level) => level.code === enrollmentRequest.level
-    );
+    const level = this.levelRepository.findByCode(enrollmentRequest.level);
     if (!level) throw new Error("Level not found");
     const module = this.modules.find(
       (module) =>
