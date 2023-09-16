@@ -1,13 +1,19 @@
 import EnrollmentRepositoryInMemory from "./EnrollmentRepositoryInMemory";
 import EnrollStudent from "./EnrollStudent";
 import LevelRepositoryInMemory from "./LevelRepositoryInMemory";
+import ModuleRepositoryInMemory from "./ModuleRepositoryInMemory";
 
 let enrollStudent: any;
 
 beforeEach(() => {
   const levelRepository = new LevelRepositoryInMemory();
+  const moduleRepository = new ModuleRepositoryInMemory();
   const enrollmentRepository = new EnrollmentRepositoryInMemory();
-  enrollStudent = new EnrollStudent(levelRepository, enrollmentRepository);
+  enrollStudent = new EnrollStudent(
+    levelRepository,
+    moduleRepository,
+    enrollmentRepository
+  );
 });
 describe("Enroll Student", () => {
   it("Should not enroll without valid student name", () => {
