@@ -1,16 +1,9 @@
+import Enrollment from "./Enrollment";
 import EnrollmentRepositoryInterface from "./EnrollmentRepositoryInterface";
 import GradeRepositoryInterface from "./GradeRepositoryInterface";
 import LevelRepositoryInterface from "./LevelRepositoryInterface";
 import ModuleRepositoryInterface from "./ModuleRepositoryInterface";
 import Student from "./Student";
-
-type Enrollment = {
-  student: Student;
-  level: string;
-  module: string;
-  grade: string;
-  code: string;
-};
 
 export default class EnrollStudent {
   levelRepository: LevelRepositoryInterface;
@@ -65,7 +58,11 @@ export default class EnrollStudent {
       module.code,
       grade.code
     );
-    if (studentsInClass.length > 0 && studentsInClass.length === grade.capacity)
+    if (
+      studentsInClass &&
+      studentsInClass.length > 0 &&
+      studentsInClass.length >= grade.capacity
+    )
       throw new Error("Class is over capacity");
     const enrollmentDate = new Date();
     const classEndDate = new Date(grade.end_date);
@@ -82,13 +79,14 @@ export default class EnrollStudent {
     const enrollmentCode = `${enrollmentDate.getFullYear()}${level.code}${
       module.code
     }${grade.code}${sequenceCode}`;
-    this.enrollmentRepository.save({
-      student: student,
-      level: level.code,
-      module: module.code,
-      grade: grade.code,
-      code: enrollmentCode,
-    });
+    const enrollment = new Enrollment(
+      student,
+      level.code,
+      module.code,
+      grade.code,
+      sequenceCode
+    );
+    this.enrollmentRepository.save(enrollment);
     return enrollmentCode;
   }
 }
