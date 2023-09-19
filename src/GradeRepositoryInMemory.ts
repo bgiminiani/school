@@ -1,4 +1,8 @@
-export default class GradeRepositoryInMemory {
+import GradeRepositoryInterface from "./GradeRepositoryInterface";
+
+export default class GradeRepositoryInMemory
+  implements GradeRepositoryInterface
+{
   grades: any[];
 
   constructor() {
@@ -30,11 +34,12 @@ export default class GradeRepositoryInMemory {
     ];
   }
   findByCode(levelCode: string, moduleCode: string, gradeCode: string) {
-    return this.grades.find(
+    const grade = this.grades.find(
       (grade) =>
         grade.level === levelCode &&
         grade.module === moduleCode &&
         grade.code === gradeCode
     );
+    return grade;
   }
 }
