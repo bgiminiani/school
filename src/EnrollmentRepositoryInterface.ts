@@ -1,6 +1,12 @@
+import Enrollment from "./Enrollment";
+
 export default interface EnrollmentRepositoryInterface {
-  save(enrollment: any): void;
-  findByCpf(cpf: string): any;
-  findAllByClass(levelCode: string, moduleCode: string, classCode: string): any;
+  save(enrollment: Enrollment): void;
+  findByCpf(cpf: string): Enrollment | undefined;
+  findAllByClass(
+    levelCode: string,
+    moduleCode: string,
+    classCode: string
+  ): Enrollment[];
   count(): number;
 }

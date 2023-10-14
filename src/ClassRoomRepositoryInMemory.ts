@@ -30,11 +30,12 @@ export default class ClassRoomRepositoryInMemory {
     ];
   }
   findByCode(levelCode: string, moduleCode: string, classRoomCode: string) {
-    return this.classRooms.find(
+    const classRoom =  this.classRooms.find(
       (classRoom) =>
         classRoom.level === levelCode &&
         classRoom.module === moduleCode &&
         classRoom.code === classRoomCode
     );
+    return classRoom;
   }
 }

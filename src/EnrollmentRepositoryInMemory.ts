@@ -1,23 +1,22 @@
 import Enrollment from "./Enrollment";
 import EnrollmentRepositoryInterface from "./EnrollmentRepositoryInterface";
 
-export default class EnrollmentRepositoryInMemory
-  implements EnrollmentRepositoryInterface
-{
+export default class EnrollmentRepositoryInMemory implements EnrollmentRepositoryInterface {
   enrollments: Enrollment[];
 
   constructor() {
     this.enrollments = [];
   }
 
-  save(enrollment: any): void {
+  save(enrollment: Enrollment): void {
     this.enrollments.push(enrollment);
   }
 
   findByCpf(cpf: string): Enrollment | undefined {
-    return this.enrollments.find(
+    const enrollment = this.enrollments.find(
       (enrollment) => enrollment.student.cpf.value === cpf
     );
+    return enrollment;
   }
 
   findAllByClass(
@@ -29,7 +28,7 @@ export default class EnrollmentRepositoryInMemory
       (enrollment) =>
         enrollment.levelCode === levelCode &&
         enrollment.moduleCode === moduleCode &&
-        enrollment.gradeCode === classCode
+        enrollment.classRoomCode === classCode
     );
     return enrollmentsInClass;
   }
