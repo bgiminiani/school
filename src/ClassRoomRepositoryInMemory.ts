@@ -1,8 +1,8 @@
-export default class GradeRepositoryInMemory {
-  grades: any[];
+export default class ClassRoomRepositoryInMemory {
+  classRooms: any[];
 
   constructor() {
-    this.grades = [
+    this.classRooms = [
       {
         level: "EF",
         module: "1",
@@ -29,12 +29,12 @@ export default class GradeRepositoryInMemory {
       },
     ];
   }
-  findByCode(levelCode: string, moduleCode: string, gradeCode: string) {
-    return this.grades.find(
-      (grade) =>
-        grade.level === levelCode &&
-        grade.module === moduleCode &&
-        grade.code === gradeCode
+  findByCode(levelCode: string, moduleCode: string, classRoomCode: string) {
+    return this.classRooms.find(
+      (classRoom) =>
+        classRoom.level === levelCode &&
+        classRoom.module === moduleCode &&
+        classRoom.code === classRoomCode
     );
   }
 }

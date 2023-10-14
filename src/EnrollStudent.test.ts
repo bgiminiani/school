@@ -1,6 +1,6 @@
 import EnrollmentRepositoryInMemory from "./EnrollmentRepositoryInMemory";
 import EnrollStudent from "./EnrollStudent";
-import GradeRepositoryInMemory from "./GradeRepositoryInMemory";
+import ClassRoomRepositoryInMemory from "./ClassRoomRepositoryInMemory";
 import LevelRepositoryInMemory from "./LevelRepositoryInMemory";
 import ModuleRepositoryInMemory from "./ModuleRepositoryInMemory";
 
@@ -9,12 +9,12 @@ let enrollStudent: any;
 beforeEach(() => {
   const levelRepository = new LevelRepositoryInMemory();
   const moduleRepository = new ModuleRepositoryInMemory();
-  const gradeRepository = new GradeRepositoryInMemory();
+  const classRommRepository = new ClassRoomRepositoryInMemory();
   const enrollmentRepository = new EnrollmentRepositoryInMemory();
   enrollStudent = new EnrollStudent(
     levelRepository,
     moduleRepository,
-    gradeRepository,
+    classRommRepository,
     enrollmentRepository
   );
 });
@@ -28,7 +28,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "1",
-      grade: "A",
+      classRoom: "A",
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Invalid name")
@@ -44,7 +44,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "1",
-      grade: "A",
+      classRoom: "A",
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Invalid cpf")
@@ -60,7 +60,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "1",
-      grade: "A",
+      classRoom: "A",
     };
     enrollStudent.execute(enrollmentRequest);
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
@@ -77,7 +77,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "1",
-      grade: "A",
+      classRoom: "A",
     };
     const date = new Date();
     const fullYear = date.getFullYear();
@@ -94,7 +94,7 @@ describe("Enroll Student", () => {
       },
       level: "ES",
       module: "1",
-      grade: "A",
+      classRoom: "A",
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Level not found")
@@ -110,14 +110,14 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "10000",
-      grade: "A",
+      classRoom: "A",
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Module not found")
     );
   });
 
-  it("Should not enroll if grade does not exist", () => {
+  it("Should not enroll if classRoom does not exist", () => {
     const enrollmentRequest = {
       student: {
         name: "Ana Maria",
@@ -126,10 +126,10 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "1",
-      grade: "AA",
+      classRoom: "AA",
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
-      new Error("Grade not found")
+      new Error("Classroom not found")
     );
   });
 
@@ -142,7 +142,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "1",
-      grade: "A",
+      classRoom: "A",
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Student below minimum age")
@@ -158,7 +158,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "1",
-      grade: "A",
+      classRoom: "A",
     });
     enrollStudent.execute({
       student: {
@@ -168,7 +168,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "1",
-      grade: "A",
+      classRoom: "A",
     });
     expect(() =>
       enrollStudent.execute({
@@ -179,7 +179,7 @@ describe("Enroll Student", () => {
         },
         level: "EM",
         module: "1",
-        grade: "A",
+        classRoom: "A",
       })
     ).toThrow(new Error("Class is over capacity"));
   });
@@ -193,7 +193,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "3",
-      grade: "C",
+      classRoom: "C",
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Class is already finished")
@@ -209,7 +209,7 @@ describe("Enroll Student", () => {
       },
       level: "EM",
       module: "3",
-      grade: "C",
+      classRoom: "C",
     };
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Class is already finished")
