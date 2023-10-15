@@ -3,8 +3,8 @@ export default class ClassRoom {
   module: string;
   code: string;
   capacity: number;
-  start_date: string;
-  end_date: string;
+  startDate: Date;
+  endDate: Date;
 
   constructor({
     level,
@@ -25,11 +25,17 @@ export default class ClassRoom {
     this.module = module;
     this.code = code;
     this.capacity = capacity;
-    this.start_date = start_date;
-    this.end_date = end_date;
+    this.startDate = new Date(start_date);
+    this.endDate = new Date(end_date);
   }
 
   isOverCapacity(studentEnrollments: number) {
     return studentEnrollments >= this.capacity;
   }
+
+  isFinished(): boolean {
+    const today = new Date();
+    return today.getTime() - this.endDate.getTime() > 0;
+  }
+
 }

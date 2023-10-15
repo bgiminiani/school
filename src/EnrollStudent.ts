@@ -59,14 +59,10 @@ export default class EnrollStudent {
     if (classRoom.isOverCapacity(studentsInClass?.length))
       throw new Error("Class is over capacity");
     const enrollmentDate = new Date();
-    const classEndDate = new Date(classRoom.end_date);
-    const isAfterEndClass =
-      enrollmentDate.getTime() - classEndDate.getTime() > 0;
-    if (isAfterEndClass) throw new Error("Class is already finished");
-    const classStartDate = new Date(classRoom.start_date);
+    if (classRoom.isFinished()) throw new Error("Class is already finished");
     const classAlreadyStarted =
-      enrollmentDate.getTime() - classStartDate.getTime() >
-      (1 / 4) * (classEndDate.getTime() - classStartDate.getTime());
+      enrollmentDate.getTime() - classRoom.startDate.getTime() >
+      (1 / 4) * (classRoom.endDate.getTime() - classRoom.startDate.getTime());
     if (classAlreadyStarted) throw new Error("Class is already started");
 
     const enrollmentSequence = this.enrollmentRepository.count() + 1;
