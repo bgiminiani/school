@@ -15,6 +15,7 @@ export default class Enrollment {
     level: Level,
     module: Module,
     classRoom: ClassRoom,
+    issueDate: Date,
     sequence: number,
   ) {
     if (student.getAge() < module.minimumAge) throw new Error("Student below minimum age");
@@ -22,9 +23,8 @@ export default class Enrollment {
     this.level = level;
     this.module = module;
     this.classRoom = classRoom;
-    const enrollmentDate = new Date();
     const sequenceCode = (sequence).toString().padStart(4, "0");
-    const enrollmentCode = `${enrollmentDate.getFullYear()}${this.level.code}${this.module.code}${this.classRoom.code}${sequenceCode}`;
+    const enrollmentCode = `${issueDate.getFullYear()}${this.level.code}${this.module.code}${this.classRoom.code}${sequenceCode}`;
     this.code = enrollmentCode;
   }
 }

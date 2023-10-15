@@ -75,6 +75,7 @@ export default class EnrollStudent {
       level,
       module,
       classRoom,
+      new Date(),
       enrollmentSequence,
     );
     this.enrollmentRepository.save(enrollment);
