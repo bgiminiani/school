@@ -38,4 +38,15 @@ export default class ClassRoom {
     return today.getTime() - this.endDate.getTime() > 0;
   }
 
+  isStarted(): boolean {
+    const today = new Date();
+    return today.getTime() > this.startDate.getTime();
+  }
+
+  getPercentageCompleted(): number {
+    const today = new Date();
+    const percentual =  (today.getTime() - this.startDate.getTime()) / (this.endDate.getTime() - this.startDate.getTime()) * 100;
+    return Math.round(percentual*100) / 100;
+  }
+
 }
