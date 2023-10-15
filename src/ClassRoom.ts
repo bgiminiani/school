@@ -33,14 +33,12 @@ export default class ClassRoom {
     return studentEnrollments >= this.capacity;
   }
 
-  isFinished(): boolean {
-    const today = new Date();
-    return today.getTime() - this.endDate.getTime() > 0;
+  isFinished(currentDate: Date): boolean {
+    return currentDate.getTime() - this.endDate.getTime() > 0;
   }
 
-  isStarted(): boolean {
-    const today = new Date();
-    return today.getTime() > this.startDate.getTime();
+  isStarted(currentDate: Date): boolean {
+    return currentDate.getTime() > this.startDate.getTime();
   }
 
   getPercentageCompleted(): number {
