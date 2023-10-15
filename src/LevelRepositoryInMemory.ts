@@ -23,7 +23,7 @@ export default class LevelRepositoryInMemory
     ];
   }
 
-  findByCode(code: string): Level | undefined {
+  findByCode(code: string): any {
     return this.levels.find((level) => level.code === code);
   }
 }

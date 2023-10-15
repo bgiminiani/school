@@ -1,6 +1,7 @@
 import ClassRoom from "./ClassRoom";
+import ClassRoomRepositoryInterface from "./ClassRoomRepositoryInterface";
 
-export default class ClassRoomRepositoryInMemory {
+export default class ClassRoomRepositoryInMemory implements ClassRoomRepositoryInterface{
   classRooms: ClassRoom[];
 
   constructor() {
@@ -31,7 +32,7 @@ export default class ClassRoomRepositoryInMemory {
       }),
     ];
   }
-  findByCode(levelCode: string, moduleCode: string, classRoomCode: string) {
+  findByCode(levelCode: string, moduleCode: string, classRoomCode: string): any {
     const classRoom =  this.classRooms.find(
       (classRoom) =>
         classRoom.level === levelCode &&
