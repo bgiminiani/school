@@ -79,6 +79,6 @@ export default class EnrollStudent {
       enrollmentSequence,
     );
     this.enrollmentRepository.save(enrollment);
-    return enrollment.code;
+    return enrollment.enrollmentCode.value;
   }
 }
