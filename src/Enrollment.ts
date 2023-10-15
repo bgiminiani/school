@@ -8,6 +8,7 @@ export default class Enrollment {
   level: Level;
   module: Module;
   classRoom: ClassRoom;
+  sequence: number;
   code: string;
 
   constructor(
@@ -23,7 +24,8 @@ export default class Enrollment {
     this.level = level;
     this.module = module;
     this.classRoom = classRoom;
-    const sequenceCode = (sequence).toString().padStart(4, "0");
+    this.sequence = sequence;
+    const sequenceCode = (this.sequence).toString().padStart(4, "0");
     const enrollmentCode = `${issueDate.getFullYear()}${this.level.code}${this.module.code}${this.classRoom.code}${sequenceCode}`;
     this.code = enrollmentCode;
   }
