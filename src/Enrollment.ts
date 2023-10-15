@@ -17,6 +17,7 @@ export default class Enrollment {
     classRoom: ClassRoom,
     code: string
   ) {
+    if (student.getAge() < module.minimumAge) throw new Error("Student below minimum age");
     this.student = student;
     this.level = level;
     this.module = module;

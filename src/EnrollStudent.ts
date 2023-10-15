@@ -58,11 +58,7 @@ export default class EnrollStudent {
       module.code,
       classRoom.code
     );
-    if (
-      studentsInClass &&
-      studentsInClass.length > 0 &&
-      studentsInClass.length >= classRoom.capacity
-    )
+    if (classRoom.isOverCapacity(studentsInClass?.length))
       throw new Error("Class is over capacity");
     const enrollmentDate = new Date();
     const classEndDate = new Date(classRoom.end_date);

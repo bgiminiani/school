@@ -28,4 +28,8 @@ export default class ClassRoom {
     this.start_date = start_date;
     this.end_date = end_date;
   }
+
+  isOverCapacity(students: number) {
+    return students >= this.capacity;
+  }
 }
