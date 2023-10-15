@@ -56,18 +56,17 @@ export default class EnrollStudent {
       module.code,
       classRoom.code
     );
-    const currentDate = new Date();
     if (classRoom.isOverCapacity(studentsInClass?.length))
       throw new Error("Class is over capacity");
-    if (classRoom.isFinished(currentDate)) throw new Error("Class is already finished");
-    if (classRoom.getPercentageCompleted() > 25) throw new Error("Class is already started");
+
+    const issueDate = new Date();
     const enrollmentSequence = this.enrollmentRepository.count() + 1;
     const enrollment = new Enrollment(
       student,
       level,
       module,
       classRoom,
-      new Date(),
+      new Date,
       enrollmentSequence,
     );
     this.enrollmentRepository.save(enrollment);

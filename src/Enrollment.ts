@@ -22,6 +22,8 @@ export default class Enrollment {
     sequence: number,
   ) {
     if (student.getAge() < module.minimumAge) throw new Error("Student below minimum age");
+    if (classRoom.isFinished(issueDate)) throw new Error("Class is already finished");
+    if (classRoom.getPercentageCompleted() > 25) throw new Error("Class is already started");
     this.student = student;
     this.level = level;
     this.module = module;
