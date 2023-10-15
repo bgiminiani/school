@@ -47,8 +47,6 @@ export default class EnrollStudent {
       enrollmentRequest.classRoom
     );
     if (!classRoom) throw new Error("Classroom not found");
-    if (student.getAge() < module.minimumAge)
-      throw new Error("Student below minimum age");
     const isDuplicatedStudent = this.enrollmentRepository.findByCpf(
       student.cpf.value
     );
@@ -70,19 +68,16 @@ export default class EnrollStudent {
       enrollmentDate.getTime() - classStartDate.getTime() >
       (1 / 4) * (classEndDate.getTime() - classStartDate.getTime());
     if (classAlreadyStarted) throw new Error("Class is already started");
-    const enrollmentQuantity = this.enrollmentRepository.count();
-    const sequenceCode = (enrollmentQuantity + 1).toString().padStart(4, "0");
-    const enrollmentCode = `${enrollmentDate.getFullYear()}${level.code}${
-      module.code
-    }${classRoom.code}${sequenceCode}`;
+
+    const enrollmentSequence = this.enrollmentRepository.count() + 1;
     const enrollment = new Enrollment(
       student,
       level,
       module,
       classRoom,
-      sequenceCode
+      enrollmentSequence,
     );
     this.enrollmentRepository.save(enrollment);
-    return enrollmentCode;
+    return enrollment.code;
   }
 }

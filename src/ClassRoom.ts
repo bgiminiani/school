@@ -29,7 +29,7 @@ export default class ClassRoom {
     this.end_date = end_date;
   }
 
-  isOverCapacity(students: number) {
-    return students >= this.capacity;
+  isOverCapacity(studentEnrollments: number) {
+    return studentEnrollments >= this.capacity;
   }
 }
