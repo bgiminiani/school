@@ -81,9 +81,9 @@ export default class EnrollStudent {
     }${classRoom.code}${sequenceCode}`;
     const enrollment = new Enrollment(
       student,
-      level.code,
-      module.code,
-      classRoom.code,
+      level,
+      module,
+      classRoom,
       sequenceCode
     );
     this.enrollmentRepository.save(enrollment);

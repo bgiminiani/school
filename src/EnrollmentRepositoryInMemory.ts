@@ -26,9 +26,9 @@ export default class EnrollmentRepositoryInMemory implements EnrollmentRepositor
   ): Enrollment[] {
     const enrollmentsInClass = this.enrollments.filter(
       (enrollment) =>
-        enrollment.levelCode === levelCode &&
-        enrollment.moduleCode === moduleCode &&
-        enrollment.classRoomCode === classCode
+        enrollment.level.code === levelCode &&
+        enrollment.module.code === moduleCode &&
+        enrollment.classRoom.code === classCode
     );
     return enrollmentsInClass;
   }

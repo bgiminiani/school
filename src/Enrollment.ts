@@ -1,23 +1,26 @@
+import Module from "./Module";
+import ClassRoom from "./ClassRoom";
+import Level from "./Level";
 import Student from "./Student";
 
 export default class Enrollment {
   student: Student;
-  levelCode: string;
-  moduleCode: string;
-  classRoomCode: string;
+  level: Level;
+  module: Module;
+  classRoom: ClassRoom;
   code: string;
 
   constructor(
     student: Student,
-    levelCode: string,
-    moduleCode: string,
-    classRoomCode: string,
+    level: Level,
+    module: Module,
+    classRoom: ClassRoom,
     code: string
   ) {
     this.student = student;
-    this.levelCode = levelCode;
-    this.moduleCode = moduleCode;
-    this.classRoomCode = classRoomCode;
+    this.level = level;
+    this.module = module;
+    this.classRoom = classRoom;
     this.code = code;
   }
 }
