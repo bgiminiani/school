@@ -10,6 +10,7 @@ export default class Enrollment {
   module: Module;
   classRoom: ClassRoom;
   issueDate: Date;
+  invoices: any []
   sequence: number;
   enrollmentCode: EnrollmentCode;
 
@@ -29,6 +30,7 @@ export default class Enrollment {
     this.module = module;
     this.classRoom = classRoom;
     this.issueDate = issueDate;
+    this.invoices = [];
     this.sequence = sequence;
     this.enrollmentCode = new EnrollmentCode(this.level.code, this.module.code, this.classRoom.code, issueDate, sequence);
   }

@@ -61,6 +61,7 @@ describe("Enroll Student", () => {
       level: "EM",
       module: "1",
       classRoom: "A",
+      installments: 10
     };
     enrollStudent.execute(enrollmentRequest);
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
@@ -78,11 +79,12 @@ describe("Enroll Student", () => {
       level: "EM",
       module: "1",
       classRoom: "A",
+      installments: 3,
     };
     const date = new Date();
     const fullYear = date.getFullYear();
-    const enrollmentCode = enrollStudent.execute(enrollmentRequest);
-    expect(enrollmentCode).toBe(`${fullYear}EM1A0001`);
+    const enrollment = enrollStudent.execute(enrollmentRequest);
+    expect(enrollment.enrollmentCode.value).toBe(`${fullYear}EM1A0001`);
   });
 
   it("Should not enroll if level does not exist", () => {
@@ -159,6 +161,7 @@ describe("Enroll Student", () => {
       level: "EM",
       module: "1",
       classRoom: "A",
+      installments: 11,
     });
     enrollStudent.execute({
       student: {
@@ -169,6 +172,7 @@ describe("Enroll Student", () => {
       level: "EM",
       module: "1",
       classRoom: "A",
+      installments: 11,
     });
     expect(() =>
       enrollStudent.execute({
@@ -180,6 +184,7 @@ describe("Enroll Student", () => {
         level: "EM",
         module: "1",
         classRoom: "A",
+        installments: 11,
       })
     ).toThrow(new Error("Class is over capacity"));
   });
@@ -214,5 +219,23 @@ describe("Enroll Student", () => {
     expect(() => enrollStudent.execute(enrollmentRequest)).toThrow(
       new Error("Class is already finished")
     );
+  });
+
+  it("Should generate invoices", () => {
+    const enrollmentRequest = {
+      student: {
+        name: "Ana Maria",
+        cpf: "233.948.962-81",
+        birthDate: "2005-03-12",
+      },
+      level: "EM",
+      module: "1",
+      classRoom: "A",
+      installments: 12,
+    };
+    const enrollment = enrollStudent.execute(enrollmentRequest)
+    expect(enrollment.invoices).toHaveLength(12);
+    expect(enrollment.invoices[0].amount).toBe(1416.66);
+    expect(enrollment.invoices[11].amount).toBe(1416.74);
   });
 });
