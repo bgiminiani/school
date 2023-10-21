@@ -12,6 +12,13 @@ export default class EnrollmentRepositoryInMemory implements EnrollmentRepositor
     this.enrollments.push(enrollment);
   }
 
+  findByCode(code: string): Enrollment | undefined {
+      const enrollment = this.enrollments.find(
+        (enrollment) => enrollment.enrollmentCode.value === code
+      );
+      return enrollment;
+  }
+
   findByCpf(cpf: string): Enrollment | undefined {
     const enrollment = this.enrollments.find(
       (enrollment) => enrollment.student.cpf.value === cpf
