@@ -53,4 +53,14 @@ export default class Enrollment {
     const lastInstallmentAmount = Math.trunc((this.module.price - totalAmount + installmentAmount) * 100) / 100;
     this.invoices[this.invoices.length - 1].amount = lastInstallmentAmount;
   }
+
+  getActualInvoice(issueDate: Date): Invoice {
+    const issueMonth = issueDate.getMonth();
+    const issueYear = issueDate.getFullYear();
+    const actualInvoice = this.invoices.find(invoice =>
+      invoice.month === issueMonth &&
+      invoice.year === issueYear
+    );
+    return actualInvoice;
+  }
 }
